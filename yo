@@ -1,0 +1,20 @@
+total 1584
+  8 Makefile
+104 a.out
+ 16 command.cpp
+  8 command.h
+384 command.o
+464 final
+  8 hi
+  8 main.cpp
+ 48 main.o
+  8 me.txt
+  0 out
+104 powervirus
+  8 powervirus.cpp
+  8 process.cpp
+  8 process.h
+392 process.o
+  8 test.cpp
+  0 why
+  0 yo
