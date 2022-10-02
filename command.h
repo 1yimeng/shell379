@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <csignal>
 #include <sstream>
+#include <sys/wait.h>
+#include <cstring>
+#include <sys/resource.h>
 #include "process.h"
 
 using namespace std;

@@ -2,6 +2,9 @@
 #include <vector>
 #include <unistd.h>
 #include <iostream>
+#include <sys/wait.h>
+#include <cstring>
+#include <csignal>
 #include <string>
 #include <fstream>
 #include <sstream>

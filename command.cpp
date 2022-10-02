@@ -5,7 +5,7 @@ using namespace std;
 struct Process {
     int p_id;
     string commandLine;
-    char p_status; // R: running, P: paused
+    char p_status; // R: running, P: paused.
 };
 
 void get_usage() {
@@ -14,26 +14,6 @@ void get_usage() {
     
     printf("%s      %7d %s\n", "User time = ", (int) usages.ru_utime.tv_sec, "seconds");
     printf("%s   %7d %s\n\n", "Process time = ", (int) usages.ru_stime.tv_sec, "seconds");
-}
-
-void get_cpu_usage(int p_id) {
-    string line = "ps -p " + to_string(p_id) + " times=";
-    vector<char *> charCommand = process_line(line);
-    char *argv[charCommand.size() + 1];
-
-    for (int i = 0; i < charCommand.size(); i++) {
-        argv[i] = charCommand[i];
-    }
-    
-    argv[charCommand.size()] = nullptr;
-    pid_t p_id = fork();
-    if (p_id < 0) {
-        perror("fork problem");
-    } else if (p_id == 0) {
-        execvp(argv[0],argv);
-    } else {
-        waitpid(p_id, nullptr, 0);
-    }
 }
 
 void to_sleep(vector<char *> commands) {
@@ -209,7 +189,6 @@ vector<char *> process_line(string cLine) {
     // }
     return charCommand;
 }
-
 
 void process_command(string cLine) {
 

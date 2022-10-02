@@ -68,37 +68,40 @@ char *get_file_name(vector<char *>& commands, char in_or_out) {
     return fname;
 }
 
+vector<char *> handle_input_file(vector<char *> real_commands, char* inFname) {
+    int inFname_indx = find_file_position(real_commands, '<');
+    vector<char *> final_commands = remove_file_name(real_commands, '<');
+    ifstream infile(inFname);
+
+    for (string line; getline(infile,line);) {
+        istringstream iss(line);
+        string s;
+        while (iss >> s) {
+            char *charWord = new char[s.size()+1];
+            strcpy(charWord, s.c_str());
+            final_commands.insert(final_commands.begin()+inFname_indx,charWord);
+            inFname_indx += 1;
+        }
+    }
+    return final_commands;
+}
+
 void start_new_process(vector<char *> commands, string commandLine, bool is_background) {
 
+    // if no output/input file, commands stay unchanged
     char* outFname = get_file_name(commands, '>');
     vector<char *> real_commands = remove_file_name(commands, '>');
 
     char* inFname = get_file_name(commands, '<');
-    // cout << inFname;
-    vector<char *> final_commands;
+    vector<char *> final_commands = real_commands;
 
     if (inFname != nullptr) {
-        int inFname_indx = find_file_position(real_commands, '<');
-        final_commands = remove_file_name(real_commands, '<');
-        ifstream infile(inFname);
-
-        for (string line; getline(infile,line);) {
-            /* do something with the value */
-            istringstream iss(line);
-            string s;
-            while (iss >> s) {
-                char *charWord = new char[s.size()+1];
-                strcpy(charWord, s.c_str());
-                final_commands.insert(final_commands.begin()+inFname_indx,charWord);
-                inFname_indx += 1;
-            }
-        }
-
-        // for (const auto &word : final_commands) {
-        //     cout << word << endl;
-        // }
+        final_commands = handle_input_file(real_commands, inFname);
     }
 
+    // for (const auto &word : final_commands) {
+    //         cout << word << endl;
+    // }
     char *argv[final_commands.size() + 1];
 
     for (int i = 0; i < final_commands.size(); i++) {
